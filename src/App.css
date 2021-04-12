@@ -6,16 +6,3 @@
   align-items: center;
   justify-content: center;
 }
-
-.code-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.code-peg {
-  border-radius: 50%;
-  height: 40px;
-  width: 40px;
-  margin: 5px;
-  filter: drop-shadow(0 2px 4px #444444);
-}

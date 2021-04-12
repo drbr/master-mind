@@ -5,7 +5,9 @@ import { CodeDisplay } from './components/CodeDisplay';
 function App() {
   return (
     <div className="App">
-      <CodeDisplay code={['B', 'W', 'P', 'G']} />
+      <CodeDisplay code={['P', 'P', 'W', 'W']} />
+      <CodeDisplay code={['R', 'R', 'G', 'G']} />
+      <CodeDisplay code={['Y', 'Y', 'B', 'B']} />
     </div>
   );
 }

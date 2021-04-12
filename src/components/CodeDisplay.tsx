@@ -16,7 +16,7 @@ function renderPeg(color: CodeColor) {
 const CodeRow = cssClass('CodeRow', {
   display: 'flex',
   flexDirection: 'row',
-  padding: '15px 20px 15px 20px',
+  padding: '10px 20px 10px 20px',
   marginTop: 10,
   borderRadius: 8,
   boxShadow: 'inset 0px 0px 10px rgb(92 52 28)',

@@ -22,7 +22,7 @@ const CodeRowClass = cssClass('CodeRow', {
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  padding: '10px 20px 10px 20px',
+  padding: '10px 15px 10px 15px',
   marginTop: 10,
   borderRadius: 8,
   boxShadow: 'inset 0px 0px 10px rgba(0, 0, 0, 0.4)',

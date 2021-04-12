@@ -1,33 +1,32 @@
+import { Code } from '../logic/CodeTypes';
 import { CodeColor, CodeColorsDark, CodeColorsLight } from '../logic/colors';
 import { cssClass } from '../styleFunctions';
 
-type CodeDisplayProps = {
-  code: [CodeColor, CodeColor, CodeColor, CodeColor];
+export type CodeProps = {
+  code: Code;
 };
 
-export function CodeDisplay(props: CodeDisplayProps) {
-  return <div className={CodeRow}>{props.code.map((x) => renderPeg(x))}</div>;
+export function CodeDisplay(props: CodeProps) {
+  return <div className={CodeClass}>{props.code.map((x) => renderPeg(x))}</div>;
 }
 
 function renderPeg(color: CodeColor) {
-  return <div key={color} className={CodePeg} style={pegGradient(color)}></div>;
+  return (
+    <div key={color} className={CodePegClass} style={pegGradient(color)} />
+  );
 }
 
-const CodeRow = cssClass('CodeRow', {
+const CodeClass = cssClass('Code', {
   display: 'flex',
   flexDirection: 'row',
-  padding: '10px 20px 10px 20px',
-  marginTop: 10,
-  borderRadius: 8,
-  boxShadow: 'inset 0px 0px 10px rgb(92 52 28)',
 });
 
-const CodePeg = cssClass('CodePeg', {
+const CodePegClass = cssClass('CodePeg', {
   borderRadius: '50%',
   height: 40,
   width: 40,
   margin: 8,
-  filter: 'drop-shadow(0px 1px 3px #444)',
+  filter: 'drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.3))',
 });
 
 function pegGradient(color: CodeColor): React.CSSProperties {

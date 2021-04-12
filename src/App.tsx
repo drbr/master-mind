@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-import { CodeDisplay } from './components/CodeDisplay';
+import { CodeRow } from './components/CodeRow';
 
 function App() {
   return (
     <div className="App">
-      <CodeDisplay code={['P', 'P', 'W', 'W']} />
-      <CodeDisplay code={['R', 'R', 'G', 'G']} />
-      <CodeDisplay code={['Y', 'Y', 'B', 'B']} />
+      <CodeRow code={['P', 'P', 'W', 'W']} />
+      <CodeRow code={['R', 'R', 'G', 'G']} />
+      <CodeRow code={['Y', 'Y', 'B', 'B']} />
     </div>
   );
 }

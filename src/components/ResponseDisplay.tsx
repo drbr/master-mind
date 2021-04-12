@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { GuessResponse } from '../logic/CodeTypes';
-import { ResponseColor } from '../logic/colors';
+import { ResponseColor, ResponseColors } from '../logic/colors';
 import { cssClass } from '../styleFunctions';
 
 export type ResponseDisplayProps = {
@@ -40,9 +40,8 @@ function linearize(
 
 function renderResponsePeg(color: ResponseColor | null) {
   if (color) {
-    return (
-      <div className={ResponsePegClass} style={{ backgroundColor: color }} />
-    );
+    const backgroundColor = ResponseColors[color];
+    return <div className={ResponsePegClass} style={{ backgroundColor }} />;
   } else {
     return <div className={DotClass} />;
   }
@@ -72,4 +71,5 @@ const ResponsePegClass = cssClass('ResponsePeg', {
   borderRadius: '50%',
   width: 10,
   height: 10,
+  filter: 'drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.5))',
 });

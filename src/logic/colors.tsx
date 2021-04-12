@@ -22,3 +22,8 @@ export const CodeColorsLight: Record<CodeColor, string> = {
   G: 'rgb(167, 232, 138)',
   R: 'rgb(239, 138, 142)',
 };
+
+export const ResponseColors: Record<ResponseColor, string> = {
+  white: 'rgb(235, 235, 235)',
+  black: 'rgb(35, 35, 35)',
+};

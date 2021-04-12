@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { GuessResponse } from '../logic/CodeTypes';
 import { ResponseColor } from '../logic/colors';
 import { cssClass } from '../styleFunctions';
@@ -7,24 +8,44 @@ export type ResponseDisplayProps = {
 };
 
 export function ResponseDisplay(props: ResponseDisplayProps) {
+  const pegs = linearize(props.response);
+
   return (
     <div className={ResponseDisplayClass}>
-      {renderDot()}
-      {renderDot()}
-      {renderResponsePeg('white')}
-      {renderResponsePeg('black')}
+      {renderResponsePeg(pegs[0])}
+      {renderResponsePeg(pegs[1])}
+      {renderResponsePeg(pegs[2])}
+      {renderResponsePeg(pegs[3])}
     </div>
   );
 }
 
-function renderDot() {
-  return <div className={DotClass} />;
+function linearize(
+  response?: GuessResponse
+): ReadonlyArray<ResponseColor | null> {
+  const blacksCount = response?.black ?? 0;
+  const whitesCount = response?.white ?? 0;
+  const remainingCount = 4 - blacksCount - whitesCount;
+
+  const blacks = Array.from({ length: blacksCount }, () => 'black') as [
+    ResponseColor | null
+  ];
+  const whites = Array.from({ length: whitesCount }, () => 'white') as [
+    ResponseColor | null
+  ];
+  const remaining = Array.from({ length: remainingCount }, () => null);
+
+  return blacks.concat(whites).concat(remaining);
 }
 
-function renderResponsePeg(color: ResponseColor) {
-  return (
-    <div className={ResponsePegClass} style={{ backgroundColor: color }} />
-  );
+function renderResponsePeg(color: ResponseColor | null) {
+  if (color) {
+    return (
+      <div className={ResponsePegClass} style={{ backgroundColor: color }} />
+    );
+  } else {
+    return <div className={DotClass} />;
+  }
 }
 
 const ResponseDisplayClass = cssClass('ResponseDisplay', {

@@ -5,9 +5,9 @@ import { CodeRow } from './components/CodeRow';
 function App() {
   return (
     <div className="App">
-      <CodeRow code={['P', 'P', 'W', 'W']} />
-      <CodeRow code={['R', 'R', 'G', 'G']} />
-      <CodeRow code={['Y', 'Y', 'B', 'B']} />
+      <CodeRow code={['P', 'P', 'W', 'W']} response={{ black: 1, white: 1 }} />
+      <CodeRow code={['R', 'R', 'G', 'G']} response={{ black: 0, white: 2 }} />
+      <CodeRow code={['Y', 'Y', 'B', 'B']} response={{ black: 2, white: 1 }} />
     </div>
   );
 }

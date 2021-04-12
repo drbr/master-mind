@@ -1,6 +1,6 @@
 export type CodeColor = 'P' | 'W' | 'R' | 'G' | 'Y' | 'B';
 
-export type AnswerColor = 'white' | 'black';
+export type ResponseColor = 'white' | 'black';
 
 // The colors taken from the reference image at the darkest spot
 export const CodeColorsDark: Record<CodeColor, string> = {

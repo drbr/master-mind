@@ -1,4 +1,4 @@
-import { CodeColor } from './colors';
+import { CodeColor, ResponseColor } from './colors';
 
 export type Code = [CodeColor, CodeColor, CodeColor, CodeColor];
-export type GuessResponse = { black: number; white: number };
+export type GuessResponse = Record<ResponseColor, number>;

@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react';
 import { GuessResponse } from '../logic/CodeTypes';
+import { ResponseColor } from '../logic/colors';
 import { cssClass } from '../styleFunctions';
 
 export type ResponseDisplayProps = {
@@ -11,14 +11,20 @@ export function ResponseDisplay(props: ResponseDisplayProps) {
     <div className={ResponseDisplayClass}>
       {renderDot()}
       {renderDot()}
-      {renderDot()}
-      {renderDot()}
+      {renderResponsePeg('white')}
+      {renderResponsePeg('black')}
     </div>
   );
 }
 
 function renderDot() {
   return <div className={DotClass} />;
+}
+
+function renderResponsePeg(color: ResponseColor) {
+  return (
+    <div className={ResponsePegClass} style={{ backgroundColor: color }} />
+  );
 }
 
 const ResponseDisplayClass = cssClass('ResponseDisplay', {
@@ -29,6 +35,8 @@ const ResponseDisplayClass = cssClass('ResponseDisplay', {
   height: 42,
   marginTop: 2, // to look even with the code pegs' drop shadow
   marginRight: 10,
+  alignItems: 'center',
+  justifyItems: 'center',
 });
 
 const DotClass = cssClass('Dot', {
@@ -36,7 +44,11 @@ const DotClass = cssClass('Dot', {
   width: 5,
   height: 5,
   backgroundColor: 'black',
-  opacity: 0.3,
-  alignSelf: 'center',
-  justifySelf: 'center',
+  opacity: 0.2,
+});
+
+const ResponsePegClass = cssClass('ResponsePeg', {
+  borderRadius: '50%',
+  width: 10,
+  height: 10,
 });

@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { GuessResponse } from '../logic/CodeTypes';
 import { ResponseColor, ResponseColors } from '../logic/colors';
 import { cssClass } from '../styleFunctions';
@@ -12,10 +11,9 @@ export function ResponseDisplay(props: ResponseDisplayProps) {
 
   return (
     <div className={ResponseDisplayClass}>
-      {renderResponsePeg(pegs[0])}
-      {renderResponsePeg(pegs[1])}
-      {renderResponsePeg(pegs[2])}
-      {renderResponsePeg(pegs[3])}
+      {pegs.map((p, i) => (
+        <ResponsePeg key={i} color={p} />
+      ))}
     </div>
   );
 }
@@ -38,7 +36,7 @@ function linearize(
   return blacks.concat(whites).concat(remaining);
 }
 
-function renderResponsePeg(color: ResponseColor | null) {
+function ResponsePeg({ color }: { color: ResponseColor | null }) {
   if (color) {
     const backgroundColor = ResponseColors[color];
     return <div className={ResponsePegClass} style={{ backgroundColor }} />;

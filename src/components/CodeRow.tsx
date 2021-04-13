@@ -1,11 +1,11 @@
 import React from 'react';
-import { Code, GuessResponse } from '../logic/CodeTypes';
+import { PartialCode, GuessResponse } from '../logic/CodeTypes';
 import { cssClass } from '../styleFunctions';
 import { CodeDisplay } from './CodeDisplay';
 import { ResponseDisplay } from './ResponseDisplay';
 
 type CodeRowProps = {
-  code: Code;
+  code: PartialCode;
   response?: GuessResponse;
 };
 

@@ -1,28 +1,37 @@
 import React from 'react';
-import { PartialCode, GuessResponse } from '../logic/CodeTypes';
+import { PartialCode, GuessResponse, Code } from '../logic/CodeTypes';
 import { cssClass } from '../styleFunctions';
 import { CodeDisplay } from './CodeDisplay';
 import { ResponseDisplay } from './ResponseDisplay';
 
-type CodeRowProps = {
-  code: PartialCode;
-  response?: GuessResponse;
-  static: boolean;
+type StaticCodeRowProps = {
+  code: Code;
+  response: GuessResponse;
 };
 
-export function CodeRow(props: CodeRowProps) {
-  const allFilledIn = props.code.every((x) => x !== null);
+type EditableCodeRowProps = {
+  code: PartialCode;
+};
 
+export function StaticCodeRow(props: StaticCodeRowProps) {
   return (
     <div className={CodeRowClass}>
       <div className={ResponseContainerClass}>
-        {!props.static && allFilledIn ? (
-          <OKButton />
-        ) : (
-          <ResponseDisplay response={props.response} />
-        )}
+        <ResponseDisplay response={props.response} />
       </div>
-      <CodeDisplay static={props.static} code={props.code} />
+      <CodeDisplay static={true} code={props.code} />
+    </div>
+  );
+}
+
+export function EditableCodeRow(props: EditableCodeRowProps) {
+  const allFilledIn = props.code.every((x) => x !== null);
+  return (
+    <div className={CodeRowClass}>
+      <div className={ResponseContainerClass}>
+        {allFilledIn ? <OKButton /> : <ResponseDisplay />}
+      </div>
+      <CodeDisplay static={false} code={props.code} />
     </div>
   );
 }

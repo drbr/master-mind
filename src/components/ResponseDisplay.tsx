@@ -46,13 +46,12 @@ function ResponsePeg({ color }: { color: ResponseColor | null }) {
 }
 
 const ResponseDisplayClass = cssClass('ResponseDisplay', {
+  marginTop: 2, // to look even with the code pegs' drop shadow
   display: 'grid',
   gridTemplateColumns: '50% 50%',
   gridTemplateRows: '50% 50%',
-  width: 42,
-  height: 42,
-  marginTop: 2, // to look even with the code pegs' drop shadow
-  marginRight: 10,
+  width: '100%',
+  height: '100%',
   alignItems: 'center',
   justifyItems: 'center',
 });

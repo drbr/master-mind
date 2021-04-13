@@ -10,10 +10,7 @@ function App() {
         code={['B', 'G', 'R', 'G']}
         response={{ black: 2, white: 1 }}
       />
-      <StaticCodeRow
-        code={['Y', 'Y', 'B', 'P']}
-        response={{ black: 2, white: 2 }}
-      />
+      <EditableCodeRow code={['Y', 'Y', 'B', 'P']} />
     </div>
   );
 }

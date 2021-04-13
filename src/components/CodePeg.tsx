@@ -5,16 +5,19 @@ import { classes, cssClass } from '../styleFunctions';
 export type CodePegProps = {
   color: CodeColor | null;
   static: boolean;
+  current?: boolean;
 };
 
 export const CodePeg = forwardRef<HTMLButtonElement, CodePegProps>(
   function CodePeg(props, ref) {
+    const currentClass = props.current ? 'current' : undefined;
+
     if (props.color) {
       return (
         <button
           ref={ref}
           disabled={props.static}
-          className={CodePegClass}
+          className={classes(CodePegClass, currentClass)}
           style={pegGradient(props.color)}
         />
       );
@@ -23,7 +26,7 @@ export const CodePeg = forwardRef<HTMLButtonElement, CodePegProps>(
         <button
           ref={ref}
           disabled={props.static}
-          className={classes(CodePegClass, EmptyCodePegClass)}
+          className={classes(CodePegClass, EmptyCodePegClass, currentClass)}
         />
       );
     }
@@ -42,6 +45,9 @@ const CodePegClass = cssClass('CodePeg', {
   $nest: {
     '&:focus': {
       border: '3px solid #0096FF',
+    },
+    '&.current': {
+      border: '3px dashed black',
     },
   },
 });

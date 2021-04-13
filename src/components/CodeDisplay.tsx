@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Code, PartialCode } from '../logic/CodeTypes';
 import { cssClass } from '../styleFunctions';
 import { CodePeg } from './CodePeg';
@@ -18,21 +18,6 @@ export function EditableCodeDisplay(props: { code: PartialCode }) {
 
   const [currentPegIndex, setCurrentPegIndex] = useState(0);
 
-  useEffect(() => {
-    const currentPeg = pegRefs.current[currentPegIndex];
-    if (currentPeg) {
-      currentPeg.focus();
-    }
-  }, [currentPegIndex]);
-
-  useEffect(() => {
-    let i = 0;
-    const intervalId = setInterval(() => {
-      setCurrentPegIndex(i++ % 4);
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, []);
-
   function setRef(i: number, el: HTMLButtonElement | null) {
     pegRefs.current[i] = el;
   }
@@ -40,7 +25,13 @@ export function EditableCodeDisplay(props: { code: PartialCode }) {
   return (
     <div className={CodeClass}>
       {props.code.map((x, i) => (
-        <CodePeg ref={(el) => setRef(i, el)} key={i} color={x} static={false} />
+        <CodePeg
+          ref={(el) => setRef(i, el)}
+          key={i}
+          color={x}
+          static={false}
+          current={currentPegIndex === i}
+        />
       ))}
     </div>
   );

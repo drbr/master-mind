@@ -1,7 +1,7 @@
 import React from 'react';
 import { PartialCode, GuessResponse, Code } from '../logic/CodeTypes';
 import { cssClass } from '../styleFunctions';
-import { CodeDisplay } from './CodeDisplay';
+import { StaticCodeDisplay, EditableCodeDisplay } from './CodeDisplay';
 import { ResponseDisplay } from './ResponseDisplay';
 
 type StaticCodeRowProps = {
@@ -19,7 +19,7 @@ export function StaticCodeRow(props: StaticCodeRowProps) {
       <div className={ResponseContainerClass}>
         <ResponseDisplay response={props.response} />
       </div>
-      <CodeDisplay static={true} code={props.code} />
+      <StaticCodeDisplay code={props.code} />
     </div>
   );
 }
@@ -31,7 +31,7 @@ export function EditableCodeRow(props: EditableCodeRowProps) {
       <div className={ResponseContainerClass}>
         {allFilledIn ? <OKButton /> : <ResponseDisplay />}
       </div>
-      <CodeDisplay static={false} code={props.code} />
+      <EditableCodeDisplay code={props.code} />
     </div>
   );
 }

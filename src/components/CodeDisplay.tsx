@@ -1,3 +1,4 @@
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { PartialCode } from '../logic/CodeTypes';
 import { CodeColor, CodeColorsDark, CodeColorsLight } from '../logic/colors';
 import { classes, cssClass } from '../styleFunctions';
@@ -8,19 +9,50 @@ export type CodeProps = {
 };
 
 export function CodeDisplay(props: CodeProps) {
+  const pegRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const [currentPegIndex, setCurrentPegIndex] = useState(0);
+
+  useEffect(() => {
+    const pegToFocus = pegRefs.current[currentPegIndex];
+    if (pegToFocus) {
+      pegToFocus.focus();
+    }
+  }, [currentPegIndex]);
+
+  (window as any).focusPeg = setCurrentPegIndex;
+
+  function setRef(i: number, el: HTMLButtonElement | null) {
+    pegRefs.current[i] = el;
+  }
+
   return (
     <div className={CodeClass}>
       {props.code.map((x, i) => (
-        <CodePeg key={i} color={x} static={props.static} />
+        <CodePeg
+          ref={(el) => setRef(i, el)}
+          key={i}
+          color={x}
+          static={props.static}
+        />
       ))}
     </div>
   );
 }
 
-function CodePeg(props: { color: CodeColor | null; static: boolean }) {
+type CodePegProps = {
+  color: CodeColor | null;
+  static: boolean;
+};
+
+const CodePeg = forwardRef<HTMLButtonElement, CodePegProps>(function CodePeg(
+  props,
+  ref
+) {
   if (props.color) {
     return (
       <button
+        ref={ref}
         disabled={props.static}
         className={CodePegClass}
         style={pegGradient(props.color)}
@@ -29,12 +61,13 @@ function CodePeg(props: { color: CodeColor | null; static: boolean }) {
   } else {
     return (
       <button
+        ref={ref}
         disabled={props.static}
         className={classes(CodePegClass, EmptyCodePegClass)}
       />
     );
   }
-}
+});
 
 const CodeClass = cssClass('Code', {
   display: 'flex',

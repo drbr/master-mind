@@ -5,12 +5,15 @@ import { StaticCodeRow, EditableCodeRow } from './components/CodeRow';
 function App() {
   return (
     <div className="App">
-      <EditableCodeRow code={['P', 'P', 'W', 'W']} />
+      <EditableCodeRow code={['P', null, 'W', null]} />
       <StaticCodeRow
         code={['B', 'G', 'R', 'G']}
         response={{ black: 2, white: 1 }}
       />
-      <EditableCodeRow code={['Y', 'Y', null, null]} />
+      <StaticCodeRow
+        code={['Y', 'Y', 'B', 'P']}
+        response={{ black: 2, white: 2 }}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { StaticCodeRow, EditableCodeRow } from './components/CodeRow';
+import { ColorPalette } from './components/ColorPalette';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         response={{ black: 2, white: 1 }}
       />
       <EditableCodeRow code={['Y', 'Y', 'B', 'P']} />
+      <ColorPalette />
     </div>
   );
 }

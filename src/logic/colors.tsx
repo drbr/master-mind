@@ -28,3 +28,8 @@ export const ResponseColors: Record<ResponseColor, string> = {
   white: 'rgb(235, 235, 235)',
   black: 'rgb(35, 35, 35)',
 };
+
+/** The names of all the possible code colors */
+export const ColorNames = Object.keys(
+  CodeColorsDark
+) as ReadonlyArray<CodeColor>;

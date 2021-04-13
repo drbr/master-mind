@@ -18,9 +18,9 @@ export function CodeDisplay(props: CodeProps) {
 
 function CodePeg({ color }: { color: CodeColor | null }) {
   if (color) {
-    return <div className={CodePegClass} style={pegGradient(color)} />;
+    return <button className={CodePegClass} style={pegGradient(color)} />;
   } else {
-    return <div className={classes(CodePegClass, EmptyCodePegClass)} />;
+    return <button className={classes(CodePegClass, EmptyCodePegClass)} />;
   }
 }
 
@@ -34,7 +34,15 @@ const CodePegClass = cssClass('CodePeg', {
   height: 40,
   width: 40,
   margin: 8,
+  background: 'none',
+  border: 'none',
+  outline: 'none',
   filter: 'drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.3))',
+  $nest: {
+    '&:focus': {
+      border: '3px solid #0096FF',
+    },
+  },
 });
 
 const EmptyCodePegClass = cssClass('EmptyCodePeg', {

@@ -3,6 +3,7 @@ import { CodeColor, CodeColorsDark, CodeColorsLight } from '../logic/colors';
 import { classes, cssClass } from '../styleFunctions';
 
 export type CodeProps = {
+  static: boolean;
   code: PartialCode;
 };
 
@@ -10,17 +11,28 @@ export function CodeDisplay(props: CodeProps) {
   return (
     <div className={CodeClass}>
       {props.code.map((x, i) => (
-        <CodePeg key={i} color={x} />
+        <CodePeg key={i} color={x} static={props.static} />
       ))}
     </div>
   );
 }
 
-function CodePeg({ color }: { color: CodeColor | null }) {
-  if (color) {
-    return <button className={CodePegClass} style={pegGradient(color)} />;
+function CodePeg(props: { color: CodeColor | null; static: boolean }) {
+  if (props.color) {
+    return (
+      <button
+        disabled={props.static}
+        className={CodePegClass}
+        style={pegGradient(props.color)}
+      />
+    );
   } else {
-    return <button className={classes(CodePegClass, EmptyCodePegClass)} />;
+    return (
+      <button
+        disabled={props.static}
+        className={classes(CodePegClass, EmptyCodePegClass)}
+      />
+    );
   }
 }
 

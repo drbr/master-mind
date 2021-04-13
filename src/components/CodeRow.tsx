@@ -7,20 +7,22 @@ import { ResponseDisplay } from './ResponseDisplay';
 type CodeRowProps = {
   code: PartialCode;
   response?: GuessResponse;
-  showOKButton?: boolean;
+  static: boolean;
 };
 
 export function CodeRow(props: CodeRowProps) {
+  const allFilledIn = props.code.every((x) => x !== null);
+
   return (
     <div className={CodeRowClass}>
       <div className={ResponseContainerClass}>
-        {props.showOKButton ? (
+        {!props.static && allFilledIn ? (
           <OKButton />
         ) : (
           <ResponseDisplay response={props.response} />
         )}
       </div>
-      <CodeDisplay code={props.code} />
+      <CodeDisplay static={props.static} code={props.code} />
     </div>
   );
 }

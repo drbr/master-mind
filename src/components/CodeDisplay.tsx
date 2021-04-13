@@ -19,13 +19,19 @@ export function EditableCodeDisplay(props: { code: PartialCode }) {
   const [currentPegIndex, setCurrentPegIndex] = useState(0);
 
   useEffect(() => {
-    const pegToFocus = pegRefs.current[currentPegIndex];
-    if (pegToFocus) {
-      pegToFocus.focus();
+    const currentPeg = pegRefs.current[currentPegIndex];
+    if (currentPeg) {
+      currentPeg.focus();
     }
   }, [currentPegIndex]);
 
-  (window as any).focusPeg = (x: number) => setCurrentPegIndex(x);
+  useEffect(() => {
+    let i = 0;
+    const intervalId = setInterval(() => {
+      setCurrentPegIndex(i++ % 4);
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   function setRef(i: number, el: HTMLButtonElement | null) {
     pegRefs.current[i] = el;

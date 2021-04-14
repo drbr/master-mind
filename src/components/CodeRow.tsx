@@ -168,7 +168,14 @@ const CodeRowContainerClass = cssClass('CodeRowContainer', {
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  marginTop: 10,
+  paddingTop: 10,
+  paddingLeft: 10,
+  paddingRight: 20,
+  $nest: {
+    '&:first-child': {
+      paddingBottom: 10,
+    },
+  },
 });
 
 const CodeRowIndexLabelClass = cssClass('CodeRowIndexLabel', {

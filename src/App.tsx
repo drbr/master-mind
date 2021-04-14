@@ -3,28 +3,43 @@ import { StaticCodeRow, EditableCodeRow } from './components/CodeRow';
 import { ColorPalette } from './components/ColorPalette';
 import {
   codeEditorStateMachine,
-  getCodeEditorInitialState,
+  getInitialCodeEditorState,
 } from './stateMachines/codeEditorStateMachine';
+import {
+  gameStateMachine,
+  initialGameState,
+} from './stateMachines/gameStateMachine';
 import { useStateMachineReducer } from './stateMachines/useStateMachineReducer';
 import { cssClass } from './styleFunctions';
 
 function App() {
+  const [gameState, dispatchToGame] = useStateMachineReducer(
+    gameStateMachine,
+    initialGameState
+  );
+
   const [codeEditorState, dispatchToCodeEditor] = useStateMachineReducer(
     codeEditorStateMachine,
-    getCodeEditorInitialState({ codeLength: 4 })
+    getInitialCodeEditorState({ codeLength: 4 })
   );
 
   return (
     <div className={AppClass}>
-      <StaticCodeRow
-        code={['B', 'G', 'R', 'G']}
-        response={{ black: 2, white: 1 }}
-      />
-      <EditableCodeRow
-        code={codeEditorState.code}
-        currentPegIndex={codeEditorState.currentPegIndex}
-        dispatch={dispatchToCodeEditor}
-      />
+      <div className={CodeList}>
+        {gameState.codes.map((code, i) => (
+          <StaticCodeRow
+            key={i}
+            code={code}
+            response={{ black: 1, white: 1 }}
+          />
+        ))}
+        <EditableCodeRow
+          code={codeEditorState.code}
+          currentPegIndex={codeEditorState.currentPegIndex}
+          dispatchToCodeEditor={dispatchToCodeEditor}
+          dispatchToGame={dispatchToGame}
+        />
+      </div>
       <ColorPalette dispatch={dispatchToCodeEditor} />
     </div>
   );
@@ -36,7 +51,13 @@ const AppClass = cssClass('App', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
+});
+
+const CodeList = cssClass('CodeList', {
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column-reverse',
+  justifyContent: 'flex-start',
 });
 
 export default App;

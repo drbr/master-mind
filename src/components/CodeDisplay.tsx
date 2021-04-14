@@ -1,5 +1,5 @@
-import React, { Dispatch, useRef, useState } from 'react';
-import { Code, PartialCode } from '../logic/CodeTypes';
+import React, { Dispatch } from 'react';
+import { Code } from '../logic/CodeTypes';
 import {
   CodeEditorAction,
   CodeEditorState,

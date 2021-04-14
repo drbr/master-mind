@@ -4,6 +4,7 @@ import {
   CodeEditorAction,
   CodeEditorState,
 } from '../stateMachines/codeEditorStateMachine';
+import { GameAction } from '../stateMachines/gameStateMachine';
 import { cssClass } from '../styleFunctions';
 import { StaticCodeDisplay, EditableCodeDisplay } from './CodeDisplay';
 import { ResponseDisplay } from './ResponseDisplay';
@@ -13,8 +14,12 @@ type StaticCodeRowProps = {
   response: GuessResponse;
 };
 
-type EditableCodeRowProps = Pick<CodeEditorState, 'code' | 'currentPegIndex'> & {
-  dispatch: Dispatch<CodeEditorAction>;
+type EditableCodeRowProps = Pick<
+  CodeEditorState,
+  'code' | 'currentPegIndex'
+> & {
+  dispatchToCodeEditor: Dispatch<CodeEditorAction>;
+  dispatchToGame: Dispatch<GameAction>;
 };
 
 export function StaticCodeRow(props: StaticCodeRowProps) {
@@ -43,12 +48,24 @@ export function EditableCodeRow(props: EditableCodeRowProps) {
     <div className={CodeRowClass}>
       <div className={ResponseContainerClass}>
         {showOKButton ? (
-          <OKButton ref={okButtonRef} onClick={() => {}} />
+          <OKButton
+            ref={okButtonRef}
+            onClick={() =>
+              props.dispatchToGame({
+                type: 'submitGuess',
+                code: props.code as Code,
+              })
+            }
+          />
         ) : (
           <ResponseDisplay />
         )}
       </div>
-      <EditableCodeDisplay {...props} />
+      <EditableCodeDisplay
+        code={props.code}
+        currentPegIndex={props.currentPegIndex}
+        dispatch={props.dispatchToCodeEditor}
+      />
     </div>
   );
 }
@@ -83,6 +100,9 @@ const OKButtonClass = cssClass('OKButton', {
       backgroundColor: '#3DE51B',
       outline: 'none',
       border: '2px solid #0096FF',
+    },
+    '&:active': {
+      backgroundColor: '#3AD819',
     },
   },
   fontWeight: 'bold',

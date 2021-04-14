@@ -3,28 +3,28 @@ import { CodeColor } from '../logic/colors';
 import { StateMachineObject } from './useStateMachineReducer';
 
 export type CodeEditorState = {
-  name: 'editing';
-  codeLength: number;
-  code: PartialCode;
-  currentPegIndex: number | null;
+  readonly name: 'editing';
+  readonly codeLength: number;
+  readonly code: PartialCode;
+  readonly currentPegIndex: number | null;
 };
 
 export type CodeEditorAction =
   | {
-      type: 'putColor';
-      index?: number;
-      color: CodeColor;
+      readonly type: 'putColor';
+      readonly index?: number;
+      readonly color: CodeColor;
     }
   | {
-      type: 'removeColor';
-      index?: number;
+      readonly type: 'removeColor';
+      readonly index?: number;
     }
   | {
-      type: 'setPegIndex';
-      index: number;
+      readonly type: 'setPegIndex';
+      readonly index: number;
     };
 
-export function getCodeEditorInitialState(params: {
+export function getInitialCodeEditorState(params: {
   codeLength: number;
 }): CodeEditorState {
   return {
@@ -42,7 +42,7 @@ export const codeEditorStateMachine: StateMachineObject<
   editing: {
     putColor: (prev, action) => {
       const index = action.index ?? prev.currentPegIndex;
-      if (!index) {
+      if (index === null) {
         return prev;
       }
 
@@ -57,7 +57,7 @@ export const codeEditorStateMachine: StateMachineObject<
 
     removeColor: (prev, action) => {
       const index = action.index ?? prev.currentPegIndex;
-      if (!index) {
+      if (index === null) {
         return prev;
       }
 

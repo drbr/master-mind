@@ -48,11 +48,13 @@ function CodeListAndEditor(props: CodeListAndEditorProps) {
         {props.gameState.codes.map((code, i) => (
           <StaticCodeRow
             key={i}
+            index={i + 1}
             code={code}
             response={{ black: 1, white: 1 }}
           />
         ))}
         <EditableCodeRow
+          index={props.gameState.codes.length + 1}
           code={codeEditorState.code}
           currentPegIndex={codeEditorState.currentPegIndex}
           dispatchToCodeEditor={dispatchToCodeEditor}

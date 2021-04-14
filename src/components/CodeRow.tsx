@@ -1,4 +1,10 @@
-import React, { Dispatch, forwardRef, useEffect, useRef } from 'react';
+import React, {
+  Dispatch,
+  forwardRef,
+  ReactNode,
+  useEffect,
+  useRef,
+} from 'react';
 import { GuessResponse, Code } from '../logic/CodeTypes';
 import {
   CodeEditorAction,
@@ -10,6 +16,7 @@ import { StaticCodeDisplay, EditableCodeDisplay } from './CodeDisplay';
 import { ResponseDisplay } from './ResponseDisplay';
 
 type StaticCodeRowProps = {
+  index: number;
   code: Code;
   response: GuessResponse;
 };
@@ -18,18 +25,34 @@ type EditableCodeRowProps = Pick<
   CodeEditorState,
   'code' | 'currentPegIndex'
 > & {
+  index: number;
   dispatchToCodeEditor: Dispatch<CodeEditorAction>;
   dispatchToGame: Dispatch<GameAction>;
 };
 
+function CodeRowLayout(props: {
+  index: number;
+  responseArea: ReactNode;
+  codeArea: ReactNode;
+}) {
+  return (
+    <div className={CodeRowContainerClass}>
+      <label className={CodeRowIndexLabelClass}>{props.index}</label>
+      <div className={CodeRowClass}>
+        <div className={ResponseContainerClass}>{props.responseArea}</div>
+        {props.codeArea}
+      </div>
+    </div>
+  );
+}
+
 export function StaticCodeRow(props: StaticCodeRowProps) {
   return (
-    <div className={CodeRowClass}>
-      <div className={ResponseContainerClass}>
-        <ResponseDisplay response={props.response} />
-      </div>
-      <StaticCodeDisplay code={props.code} />
-    </div>
+    <CodeRowLayout
+      index={props.index}
+      responseArea={<ResponseDisplay response={props.response} />}
+      codeArea={<StaticCodeDisplay code={props.code} />}
+    />
   );
 }
 
@@ -44,28 +67,61 @@ export function EditableCodeRow(props: EditableCodeRowProps) {
     }
   }, [showOKButton]);
 
+  const responseArea = showOKButton ? (
+    <OKButton
+      ref={okButtonRef}
+      onClick={() =>
+        props.dispatchToGame({
+          type: 'submitGuess',
+          code: props.code as Code,
+        })
+      }
+    />
+  ) : (
+    <ResponseDisplay />
+  );
+
+  const codeArea = (
+    <EditableCodeDisplay
+      code={props.code}
+      currentPegIndex={props.currentPegIndex}
+      dispatch={props.dispatchToCodeEditor}
+    />
+  );
+
   return (
-    <div className={CodeRowClass}>
-      <div className={ResponseContainerClass}>
-        {showOKButton ? (
-          <OKButton
-            ref={okButtonRef}
-            onClick={() =>
-              props.dispatchToGame({
-                type: 'submitGuess',
-                code: props.code as Code,
-              })
-            }
-          />
-        ) : (
-          <ResponseDisplay />
-        )}
+    <CodeRowLayout
+      index={props.index}
+      responseArea={responseArea}
+      codeArea={codeArea}
+    />
+  );
+
+  return (
+    <div className={CodeRowContainerClass}>
+      <label className={CodeRowIndexLabelClass}>{props.index}</label>
+      <div className={CodeRowClass}>
+        <div className={ResponseContainerClass}>
+          {showOKButton ? (
+            <OKButton
+              ref={okButtonRef}
+              onClick={() =>
+                props.dispatchToGame({
+                  type: 'submitGuess',
+                  code: props.code as Code,
+                })
+              }
+            />
+          ) : (
+            <ResponseDisplay />
+          )}
+        </div>
+        <EditableCodeDisplay
+          code={props.code}
+          currentPegIndex={props.currentPegIndex}
+          dispatch={props.dispatchToCodeEditor}
+        />
       </div>
-      <EditableCodeDisplay
-        code={props.code}
-        currentPegIndex={props.currentPegIndex}
-        dispatch={props.dispatchToCodeEditor}
-      />
     </div>
   );
 }
@@ -108,12 +164,26 @@ const OKButtonClass = cssClass('OKButton', {
   fontWeight: 'bold',
 });
 
+const CodeRowContainerClass = cssClass('CodeRowContainer', {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginTop: 10,
+});
+
+const CodeRowIndexLabelClass = cssClass('CodeRowIndexLabel', {
+  color: 'rgba(0, 0, 0, 0.4)',
+  fontSize: '42px',
+  width: 30,
+  textAlign: 'center',
+  marginRight: 10,
+});
+
 const CodeRowClass = cssClass('CodeRow', {
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
   padding: '10px 15px 10px 15px',
-  marginTop: 10,
   borderRadius: 8,
   boxShadow: 'inset 0px 0px 10px rgba(0, 0, 0, 0.4)',
 });

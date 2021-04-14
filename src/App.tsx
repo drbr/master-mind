@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { StaticCodeRow, EditableCodeRow } from './components/CodeRow';
 import { ColorPalette } from './components/ColorPalette';
 import {
@@ -6,18 +6,37 @@ import {
   getInitialCodeEditorState,
 } from './stateMachines/codeEditorStateMachine';
 import {
+  GameAction,
+  GameState,
   gameStateMachine,
   initialGameState,
 } from './stateMachines/gameStateMachine';
 import { useStateMachineReducer } from './stateMachines/useStateMachineReducer';
 import { cssClass } from './styleFunctions';
 
-function App() {
+export function App() {
   const [gameState, dispatchToGame] = useStateMachineReducer(
     gameStateMachine,
     initialGameState
   );
 
+  // Every time a new code gets added, reïnitialize the component that
+  // keeps the code editor state
+  return (
+    <CodeListAndEditor
+      key={gameState.codes.length}
+      gameState={gameState}
+      dispatchToGame={dispatchToGame}
+    />
+  );
+}
+
+type CodeListAndEditorProps = {
+  gameState: GameState;
+  dispatchToGame: Dispatch<GameAction>;
+};
+
+function CodeListAndEditor(props: CodeListAndEditorProps) {
   const [codeEditorState, dispatchToCodeEditor] = useStateMachineReducer(
     codeEditorStateMachine,
     getInitialCodeEditorState({ codeLength: 4 })
@@ -26,7 +45,7 @@ function App() {
   return (
     <div className={AppClass}>
       <div className={CodeList}>
-        {gameState.codes.map((code, i) => (
+        {props.gameState.codes.map((code, i) => (
           <StaticCodeRow
             key={i}
             code={code}
@@ -37,7 +56,7 @@ function App() {
           code={codeEditorState.code}
           currentPegIndex={codeEditorState.currentPegIndex}
           dispatchToCodeEditor={dispatchToCodeEditor}
-          dispatchToGame={dispatchToGame}
+          dispatchToGame={props.dispatchToGame}
         />
       </div>
       <ColorPalette dispatch={dispatchToCodeEditor} />
@@ -59,5 +78,3 @@ const CodeList = cssClass('CodeList', {
   flexDirection: 'column-reverse',
   justifyContent: 'flex-start',
 });
-
-export default App;

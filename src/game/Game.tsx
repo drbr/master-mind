@@ -24,7 +24,7 @@ export function Game() {
   // keeps the code editor state
   return (
     <CodeListAndEditor
-      key={gameState.codes.length}
+      key={gameState.codesAndResponses.length}
       gameState={gameState}
       dispatchToGame={dispatchToGame}
     />
@@ -45,16 +45,16 @@ function CodeListAndEditor(props: CodeListAndEditorProps) {
   return (
     <div className={AppClass}>
       <div className={CodeListClass}>
-        {props.gameState.codes.map((code, i) => (
+        {props.gameState.codesAndResponses.map(({ code, response }, i) => (
           <StaticCodeRow
             key={i}
             index={i + 1}
             code={code}
-            response={{ black: 1, white: 1 }}
+            response={response}
           />
         ))}
         <EditableCodeRow
-          index={props.gameState.codes.length + 1}
+          index={props.gameState.codesAndResponses.length + 1}
           code={codeEditorState.code}
           currentPegIndex={codeEditorState.currentPegIndex}
           dispatchToCodeEditor={dispatchToCodeEditor}

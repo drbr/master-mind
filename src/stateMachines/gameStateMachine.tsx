@@ -1,9 +1,14 @@
-import { Code } from '../logic/CodeTypes';
+import { Code, GuessResponse } from '../logic/CodeTypes';
+import { computeResponse } from '../logic/computeResponse';
 import { StateMachineObject } from './useStateMachineReducer';
 
 export type GameState = {
   readonly name: 'unsolved' | 'solved';
-  readonly codes: ReadonlyArray<Code>;
+  readonly answer: Code;
+  readonly codesAndResponses: ReadonlyArray<{
+    readonly code: Code;
+    readonly response: GuessResponse;
+  }>;
 };
 
 export type GameAction = {
@@ -13,15 +18,24 @@ export type GameAction = {
 
 export const initialGameState: GameState = {
   name: 'unsolved',
-  codes: [],
+  answer: ['B', 'R', 'G', 'R'],
+  codesAndResponses: [],
 };
 
 export const gameStateMachine: StateMachineObject<GameState, GameAction> = {
   unsolved: {
     submitGuess: (prev, action) => {
+      const response = computeResponse({
+        guess: action.code,
+        answer: prev.answer,
+      });
+
       return {
         ...prev,
-        codes: [...prev.codes, action.code],
+        codesAndResponses: [
+          ...prev.codesAndResponses,
+          { code: action.code, response },
+        ],
       };
     },
   },

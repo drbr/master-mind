@@ -1,20 +1,20 @@
 import React, { Dispatch } from 'react';
-import { StaticCodeRow, EditableCodeRow } from './components/CodeRow';
-import { ColorPalette } from './components/ColorPalette';
+import { StaticCodeRow, EditableCodeRow } from '../components/CodeRow';
+import { ColorPalette } from '../components/ColorPalette';
 import {
   codeEditorStateMachine,
   getInitialCodeEditorState,
-} from './stateMachines/codeEditorStateMachine';
+} from '../stateMachines/codeEditorStateMachine';
 import {
   GameAction,
   GameState,
   gameStateMachine,
   initialGameState,
-} from './stateMachines/gameStateMachine';
-import { useStateMachineReducer } from './stateMachines/useStateMachineReducer';
-import { cssClass } from './styleFunctions';
+} from '../stateMachines/gameStateMachine';
+import { useStateMachineReducer } from '../stateMachines/useStateMachineReducer';
+import { cssClass } from '../styleFunctions';
 
-export function App() {
+export function Game() {
   const [gameState, dispatchToGame] = useStateMachineReducer(
     gameStateMachine,
     initialGameState
@@ -44,7 +44,7 @@ function CodeListAndEditor(props: CodeListAndEditorProps) {
 
   return (
     <div className={AppClass}>
-      <div className={CodeList}>
+      <div className={CodeListClass}>
         {props.gameState.codes.map((code, i) => (
           <StaticCodeRow
             key={i}
@@ -67,14 +67,16 @@ function CodeListAndEditor(props: CodeListAndEditorProps) {
 const AppClass = cssClass('App', {
   backgroundColor: 'rgb(141, 86, 47)',
   minHeight: '100vh',
+  maxHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
 });
 
-const CodeList = cssClass('CodeList', {
+const CodeListClass = cssClass('CodeList', {
   flex: 1,
   display: 'flex',
+  overflowY: 'auto',
   flexDirection: 'column-reverse',
   justifyContent: 'flex-start',
 });

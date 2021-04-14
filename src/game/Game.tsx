@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useEffect, useRef } from 'react';
 import { StaticCodeRow, EditableCodeRow } from '../components/CodeRow';
 import { ColorPalette } from '../components/ColorPalette';
 import {
@@ -39,23 +39,32 @@ type CodeListAndEditorProps = {
 };
 
 function CodeListAndEditor(props: CodeListAndEditorProps) {
+  const editableRowRef = useRef<HTMLDivElement>(null);
+
   const [codeEditorState, dispatchToCodeEditor] = useStateMachineReducer(
     codeEditorStateMachine,
     getInitialCodeEditorState({ codeLength: CODE_LENGTH })
   );
+
+  useEffect(() => {
+    if (editableRowRef.current) {
+      editableRowRef.current.scrollIntoView();
+    }
+  }, []);
 
   return (
     <div className={AppClass}>
       <div className={CodeListClass}>
         {props.gameState.codesAndResponses.map(({ code, response }, i) => (
           <StaticCodeRow
-            key={i}
+            key={i + 1}
             index={i + 1}
             code={code}
             response={response}
           />
         ))}
         <EditableCodeRow
+          ref={editableRowRef}
           index={props.gameState.codesAndResponses.length + 1}
           code={codeEditorState.code}
           currentPegIndex={codeEditorState.currentPegIndex}

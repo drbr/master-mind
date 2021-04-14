@@ -30,21 +30,25 @@ type EditableCodeRowProps = Pick<
   dispatchToGame: Dispatch<GameAction>;
 };
 
-function CodeRowLayout(props: {
+type CodeRowLayoutProps = {
   index: number;
   responseArea: ReactNode;
   codeArea: ReactNode;
-}) {
-  return (
-    <div className={CodeRowContainerClass}>
-      <label className={CodeRowIndexLabelClass}>{props.index}</label>
-      <div className={CodeRowClass}>
-        <div className={ResponseContainerClass}>{props.responseArea}</div>
-        {props.codeArea}
+};
+
+const CodeRowLayout = forwardRef<HTMLDivElement, CodeRowLayoutProps>(
+  function CodeRowLayout(props, ref) {
+    return (
+      <div ref={ref} className={CodeRowContainerClass}>
+        <label className={CodeRowIndexLabelClass}>{props.index}</label>
+        <div className={CodeRowClass}>
+          <div className={ResponseContainerClass}>{props.responseArea}</div>
+          {props.codeArea}
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+);
 
 export function StaticCodeRow(props: StaticCodeRowProps) {
   return (
@@ -56,75 +60,50 @@ export function StaticCodeRow(props: StaticCodeRowProps) {
   );
 }
 
-export function EditableCodeRow(props: EditableCodeRowProps) {
-  const okButtonRef = useRef<HTMLButtonElement>(null);
-  const showOKButton = props.code.every((x) => x !== null);
+export const EditableCodeRow = forwardRef<HTMLDivElement, EditableCodeRowProps>(
+  function EditableCodeRow(props, ref) {
+    const okButtonRef = useRef<HTMLButtonElement>(null);
+    const showOKButton = props.code.every((x) => x !== null);
 
-  // Focus the OK button when it appears
-  useEffect(() => {
-    if (showOKButton && okButtonRef.current) {
-      okButtonRef.current.focus();
-    }
-  }, [showOKButton]);
-
-  const responseArea = showOKButton ? (
-    <OKButton
-      ref={okButtonRef}
-      onClick={() =>
-        props.dispatchToGame({
-          type: 'submitGuess',
-          code: props.code as Code,
-        })
+    // Focus the OK button when it appears
+    useEffect(() => {
+      if (showOKButton && okButtonRef.current) {
+        okButtonRef.current.focus();
       }
-    />
-  ) : (
-    <ResponseDisplay />
-  );
+    }, [showOKButton]);
 
-  const codeArea = (
-    <EditableCodeDisplay
-      code={props.code}
-      currentPegIndex={props.currentPegIndex}
-      dispatch={props.dispatchToCodeEditor}
-    />
-  );
+    const responseArea = showOKButton ? (
+      <OKButton
+        ref={okButtonRef}
+        onClick={() =>
+          props.dispatchToGame({
+            type: 'submitGuess',
+            code: props.code as Code,
+          })
+        }
+      />
+    ) : (
+      <ResponseDisplay />
+    );
 
-  return (
-    <CodeRowLayout
-      index={props.index}
-      responseArea={responseArea}
-      codeArea={codeArea}
-    />
-  );
+    const codeArea = (
+      <EditableCodeDisplay
+        code={props.code}
+        currentPegIndex={props.currentPegIndex}
+        dispatch={props.dispatchToCodeEditor}
+      />
+    );
 
-  return (
-    <div className={CodeRowContainerClass}>
-      <label className={CodeRowIndexLabelClass}>{props.index}</label>
-      <div className={CodeRowClass}>
-        <div className={ResponseContainerClass}>
-          {showOKButton ? (
-            <OKButton
-              ref={okButtonRef}
-              onClick={() =>
-                props.dispatchToGame({
-                  type: 'submitGuess',
-                  code: props.code as Code,
-                })
-              }
-            />
-          ) : (
-            <ResponseDisplay />
-          )}
-        </div>
-        <EditableCodeDisplay
-          code={props.code}
-          currentPegIndex={props.currentPegIndex}
-          dispatch={props.dispatchToCodeEditor}
-        />
-      </div>
-    </div>
-  );
-}
+    return (
+      <CodeRowLayout
+        ref={ref}
+        index={props.index}
+        responseArea={responseArea}
+        codeArea={codeArea}
+      />
+    );
+  }
+);
 
 type OKButtonProps = {
   onClick: () => void;

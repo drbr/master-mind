@@ -1,5 +1,9 @@
-import React from 'react';
-import { PartialCode, GuessResponse, Code } from '../logic/CodeTypes';
+import React, { Dispatch, forwardRef, useEffect, useRef } from 'react';
+import { GuessResponse, Code } from '../logic/CodeTypes';
+import {
+  EditCodeAction,
+  EditCodeState,
+} from '../stateMachines/editCodeStateMachine';
 import { cssClass } from '../styleFunctions';
 import { StaticCodeDisplay, EditableCodeDisplay } from './CodeDisplay';
 import { ResponseDisplay } from './ResponseDisplay';
@@ -9,8 +13,8 @@ type StaticCodeRowProps = {
   response: GuessResponse;
 };
 
-type EditableCodeRowProps = {
-  code: PartialCode;
+type EditableCodeRowProps = Pick<EditCodeState, 'code' | 'currentPegIndex'> & {
+  dispatch: Dispatch<EditCodeAction>;
 };
 
 export function StaticCodeRow(props: StaticCodeRowProps) {
@@ -25,20 +29,40 @@ export function StaticCodeRow(props: StaticCodeRowProps) {
 }
 
 export function EditableCodeRow(props: EditableCodeRowProps) {
-  const allFilledIn = props.code.every((x) => x !== null);
+  const okButtonRef = useRef<HTMLButtonElement>(null);
+  const showOKButton = props.code.every((x) => x !== null);
+
+  // Focus the OK button when it appears
+  useEffect(() => {
+    if (showOKButton && okButtonRef.current) {
+      okButtonRef.current.focus();
+    }
+  }, [showOKButton]);
+
   return (
     <div className={CodeRowClass}>
       <div className={ResponseContainerClass}>
-        {allFilledIn ? <OKButton /> : <ResponseDisplay />}
+        {showOKButton ? <OKButton ref={okButtonRef} /> : <ResponseDisplay />}
       </div>
-      <EditableCodeDisplay code={props.code} />
+      <EditableCodeDisplay {...props} />
     </div>
   );
 }
 
-function OKButton() {
-  return <button className={OKButtonClass}>OK</button>;
-}
+type OKButtonProps = {
+  onClick: () => void;
+};
+
+const OKButton = forwardRef<HTMLButtonElement, OKButtonProps>(function OKButton(
+  props,
+  ref
+) {
+  return (
+    <button ref={ref} className={OKButtonClass} onClick={() => {}}>
+      OK
+    </button>
+  );
+});
 
 const OKButtonClass = cssClass('OKButton', {
   width: '100%',

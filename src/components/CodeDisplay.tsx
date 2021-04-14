@@ -1,36 +1,43 @@
-import React, { useRef, useState } from 'react';
+import React, { Dispatch, useRef, useState } from 'react';
 import { Code, PartialCode } from '../logic/CodeTypes';
+import {
+  EditCodeAction,
+  EditCodeState,
+} from '../stateMachines/editCodeStateMachine';
 import { cssClass } from '../styleFunctions';
 import { CodePeg } from './CodePeg';
 
 export function StaticCodeDisplay(props: { code: Code }) {
   return (
     <div className={CodeClass}>
-      {props.code.map((x, i) => (
-        <CodePeg key={i} color={x} static={true} />
+      {props.code.map((color, i) => (
+        <CodePeg key={i} color={color} />
       ))}
     </div>
   );
 }
 
-export function EditableCodeDisplay(props: { code: PartialCode }) {
-  const pegRefs = useRef<(HTMLButtonElement | null)[]>([]);
+type EditableCodeDisplayProps = Pick<
+  EditCodeState,
+  'code' | 'currentPegIndex'
+> & {
+  dispatch: Dispatch<EditCodeAction>;
+};
 
-  const [currentPegIndex, setCurrentPegIndex] = useState(0);
-
-  function setRef(i: number, el: HTMLButtonElement | null) {
-    pegRefs.current[i] = el;
-  }
-
+export function EditableCodeDisplay(props: EditableCodeDisplayProps) {
   return (
     <div className={CodeClass}>
-      {props.code.map((x, i) => (
+      {props.code.map((color, i) => (
         <CodePeg
-          ref={(el) => setRef(i, el)}
           key={i}
-          color={x}
-          static={false}
-          current={currentPegIndex === i}
+          color={color}
+          onClick={() =>
+            props.dispatch({
+              type: color ? 'removeColor' : 'setPegIndex',
+              index: i,
+            })
+          }
+          current={props.currentPegIndex === i}
         />
       ))}
     </div>

@@ -1,12 +1,22 @@
+import { Dispatch } from 'react';
 import { ColorNames } from '../logic/colors';
+import { EditCodeAction } from '../stateMachines/editCodeStateMachine';
 import { cssClass } from '../styleFunctions';
 import { CodePeg } from './CodePeg';
 
-export function ColorPalette() {
+type ColorPaletteProps = {
+  dispatch: Dispatch<EditCodeAction>;
+};
+
+export function ColorPalette(props: ColorPaletteProps) {
   return (
     <div className={ColorPaletteContainerClass}>
       {ColorNames.map((c) => (
-        <CodePeg key={c} color={c} static={false} />
+        <CodePeg
+          key={c}
+          color={c}
+          onClick={() => props.dispatch({ type: 'putColor', color: c })}
+        />
       ))}
     </div>
   );
@@ -18,6 +28,4 @@ const ColorPaletteContainerClass = cssClass('ColorPaletteContainer', {
   alignItems: 'center',
   padding: '10px 15px 10px 15px',
   marginTop: 10,
-  // borderRadius: 8,
-  // boxShadow: 'inset 0px 0px 10px rgba(0, 0, 0, 0.4)',
 });

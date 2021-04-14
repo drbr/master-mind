@@ -1,20 +1,42 @@
 import React from 'react';
-import './App.css';
 import { StaticCodeRow, EditableCodeRow } from './components/CodeRow';
 import { ColorPalette } from './components/ColorPalette';
+import {
+  editCodeStateMachine,
+  getEditCodeInitialState,
+} from './stateMachines/editCodeStateMachine';
+import { useStateMachineReducer } from './stateMachines/useStateMachineReducer';
+import { cssClass } from './styleFunctions';
 
 function App() {
+  const [codeEditorState, dispatchToCodeEditor] = useStateMachineReducer(
+    editCodeStateMachine,
+    getEditCodeInitialState({ codeLength: 4 })
+  );
+
   return (
-    <div className="App">
-      <EditableCodeRow code={['P', null, 'W', null]} />
+    <div className={AppClass}>
       <StaticCodeRow
         code={['B', 'G', 'R', 'G']}
         response={{ black: 2, white: 1 }}
       />
-      <EditableCodeRow code={['Y', 'Y', 'B', 'P']} />
-      <ColorPalette />
+      <EditableCodeRow
+        code={codeEditorState.code}
+        currentPegIndex={codeEditorState.currentPegIndex}
+        dispatch={dispatchToCodeEditor}
+      />
+      <ColorPalette dispatch={dispatchToCodeEditor} />
     </div>
   );
 }
+
+const AppClass = cssClass('App', {
+  backgroundColor: 'rgb(141, 86, 47)',
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
 
 export default App;

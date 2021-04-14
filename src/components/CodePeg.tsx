@@ -4,8 +4,8 @@ import { classes, cssClass } from '../styleFunctions';
 
 export type CodePegProps = {
   color: CodeColor | null;
-  static: boolean;
   current?: boolean;
+  onClick?: () => void;
 };
 
 export const CodePeg = forwardRef<HTMLButtonElement, CodePegProps>(
@@ -16,17 +16,19 @@ export const CodePeg = forwardRef<HTMLButtonElement, CodePegProps>(
       return (
         <button
           ref={ref}
-          disabled={props.static}
           className={classes(CodePegClass, currentClass)}
           style={pegGradient(props.color)}
+          disabled={!props.onClick}
+          onClick={props.onClick}
         />
       );
     } else {
       return (
         <button
           ref={ref}
-          disabled={props.static}
           className={classes(CodePegClass, EmptyCodePegClass, currentClass)}
+          disabled={!props.onClick}
+          onClick={props.onClick}
         />
       );
     }

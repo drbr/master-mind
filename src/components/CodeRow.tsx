@@ -1,9 +1,9 @@
 import React, { Dispatch, forwardRef, useEffect, useRef } from 'react';
 import { GuessResponse, Code } from '../logic/CodeTypes';
 import {
-  EditCodeAction,
-  EditCodeState,
-} from '../stateMachines/editCodeStateMachine';
+  CodeEditorAction,
+  CodeEditorState,
+} from '../stateMachines/codeEditorStateMachine';
 import { cssClass } from '../styleFunctions';
 import { StaticCodeDisplay, EditableCodeDisplay } from './CodeDisplay';
 import { ResponseDisplay } from './ResponseDisplay';
@@ -13,8 +13,8 @@ type StaticCodeRowProps = {
   response: GuessResponse;
 };
 
-type EditableCodeRowProps = Pick<EditCodeState, 'code' | 'currentPegIndex'> & {
-  dispatch: Dispatch<EditCodeAction>;
+type EditableCodeRowProps = Pick<CodeEditorState, 'code' | 'currentPegIndex'> & {
+  dispatch: Dispatch<CodeEditorAction>;
 };
 
 export function StaticCodeRow(props: StaticCodeRowProps) {
@@ -42,7 +42,11 @@ export function EditableCodeRow(props: EditableCodeRowProps) {
   return (
     <div className={CodeRowClass}>
       <div className={ResponseContainerClass}>
-        {showOKButton ? <OKButton ref={okButtonRef} /> : <ResponseDisplay />}
+        {showOKButton ? (
+          <OKButton ref={okButtonRef} onClick={() => {}} />
+        ) : (
+          <ResponseDisplay />
+        )}
       </div>
       <EditableCodeDisplay {...props} />
     </div>
@@ -58,7 +62,7 @@ const OKButton = forwardRef<HTMLButtonElement, OKButtonProps>(function OKButton(
   ref
 ) {
   return (
-    <button ref={ref} className={OKButtonClass} onClick={() => {}}>
+    <button ref={ref} className={OKButtonClass} onClick={props.onClick}>
       OK
     </button>
   );

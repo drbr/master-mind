@@ -2,14 +2,14 @@ import { PartialCode } from '../logic/CodeTypes';
 import { CodeColor } from '../logic/colors';
 import { StateMachineObject } from './useStateMachineReducer';
 
-export type EditCodeState = {
+export type CodeEditorState = {
   name: 'editing';
   codeLength: number;
   code: PartialCode;
   currentPegIndex: number | null;
 };
 
-export type EditCodeAction =
+export type CodeEditorAction =
   | {
       type: 'putColor';
       index?: number;
@@ -24,9 +24,9 @@ export type EditCodeAction =
       index: number;
     };
 
-export function getEditCodeInitialState(params: {
+export function getCodeEditorInitialState(params: {
   codeLength: number;
-}): EditCodeState {
+}): CodeEditorState {
   return {
     name: 'editing',
     codeLength: params.codeLength,
@@ -35,13 +35,17 @@ export function getEditCodeInitialState(params: {
   };
 }
 
-export const editCodeStateMachine: StateMachineObject<
-  EditCodeState,
-  EditCodeAction
+export const codeEditorStateMachine: StateMachineObject<
+  CodeEditorState,
+  CodeEditorAction
 > = {
   editing: {
     putColor: (prev, action) => {
-      const index = action.index ?? prev.currentPegIndex ?? 0;
+      const index = action.index ?? prev.currentPegIndex;
+      if (!index) {
+        return prev;
+      }
+
       const nextCode = updateCode(prev, { index, color: action.color });
       const nextIndex = nextPegIndex(nextCode, prev.codeLength, index);
       return {
@@ -50,8 +54,13 @@ export const editCodeStateMachine: StateMachineObject<
         currentPegIndex: nextIndex,
       };
     },
+
     removeColor: (prev, action) => {
-      const index = action.index ?? prev.currentPegIndex ?? 0;
+      const index = action.index ?? prev.currentPegIndex;
+      if (!index) {
+        return prev;
+      }
+
       const nextCode = updateCode(prev, { index, color: null });
       return {
         ...prev,
@@ -59,6 +68,7 @@ export const editCodeStateMachine: StateMachineObject<
         currentPegIndex: index,
       };
     },
+
     setPegIndex: (prev, action) => {
       return {
         ...prev,
@@ -90,7 +100,7 @@ function nextPegIndex(
 }
 
 function updateCode(
-  prevState: EditCodeState,
+  prevState: CodeEditorState,
   ...replacements: { index: number; color: CodeColor | null }[]
 ): PartialCode {
   const mutableCode = [...prevState.code];

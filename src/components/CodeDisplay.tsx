@@ -1,9 +1,9 @@
 import React, { Dispatch, useRef, useState } from 'react';
 import { Code, PartialCode } from '../logic/CodeTypes';
 import {
-  EditCodeAction,
-  EditCodeState,
-} from '../stateMachines/editCodeStateMachine';
+  CodeEditorAction,
+  CodeEditorState,
+} from '../stateMachines/codeEditorStateMachine';
 import { cssClass } from '../styleFunctions';
 import { CodePeg } from './CodePeg';
 
@@ -18,10 +18,10 @@ export function StaticCodeDisplay(props: { code: Code }) {
 }
 
 type EditableCodeDisplayProps = Pick<
-  EditCodeState,
+  CodeEditorState,
   'code' | 'currentPegIndex'
 > & {
-  dispatch: Dispatch<EditCodeAction>;
+  dispatch: Dispatch<CodeEditorAction>;
 };
 
 export function EditableCodeDisplay(props: EditableCodeDisplayProps) {

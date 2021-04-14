@@ -2,16 +2,16 @@ import React from 'react';
 import { StaticCodeRow, EditableCodeRow } from './components/CodeRow';
 import { ColorPalette } from './components/ColorPalette';
 import {
-  editCodeStateMachine,
-  getEditCodeInitialState,
-} from './stateMachines/editCodeStateMachine';
+  codeEditorStateMachine,
+  getCodeEditorInitialState,
+} from './stateMachines/codeEditorStateMachine';
 import { useStateMachineReducer } from './stateMachines/useStateMachineReducer';
 import { cssClass } from './styleFunctions';
 
 function App() {
   const [codeEditorState, dispatchToCodeEditor] = useStateMachineReducer(
-    editCodeStateMachine,
-    getEditCodeInitialState({ codeLength: 4 })
+    codeEditorStateMachine,
+    getCodeEditorInitialState({ codeLength: 4 })
   );
 
   return (

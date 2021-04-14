@@ -1,11 +1,11 @@
 import { Dispatch } from 'react';
 import { ColorNames } from '../logic/colors';
-import { EditCodeAction } from '../stateMachines/editCodeStateMachine';
+import { CodeEditorAction } from '../stateMachines/codeEditorStateMachine';
 import { cssClass } from '../styleFunctions';
 import { CodePeg } from './CodePeg';
 
 type ColorPaletteProps = {
-  dispatch: Dispatch<EditCodeAction>;
+  dispatch: Dispatch<CodeEditorAction>;
 };
 
 export function ColorPalette(props: ColorPaletteProps) {

@@ -30,7 +30,7 @@ export function getInitialCodeEditorState(params: {
   return {
     name: 'editing',
     codeLength: params.codeLength,
-    code: Array.from(new Array(4)).map((_) => null),
+    code: Array.from(new Array(params.codeLength)).map((_) => null),
     currentPegIndex: 0,
   };
 }

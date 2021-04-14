@@ -1,5 +1,6 @@
 import { Code, GuessResponse } from '../logic/CodeTypes';
 import { computeResponse } from '../logic/computeResponse';
+import { randomCode } from '../logic/randomCode';
 import { StateMachineObject } from './useStateMachineReducer';
 
 export type GameState = {
@@ -16,11 +17,17 @@ export type GameAction = {
   readonly code: Code;
 };
 
-export const initialGameState: GameState = {
-  name: 'unsolved',
-  answer: ['B', 'R', 'G', 'R'],
-  codesAndResponses: [],
-};
+export function getInitialGameState({
+  codeLength,
+}: {
+  codeLength: number;
+}): GameState {
+  return {
+    name: 'unsolved',
+    answer: randomCode(codeLength),
+    codesAndResponses: [],
+  };
+}
 
 export const gameStateMachine: StateMachineObject<GameState, GameAction> = {
   unsolved: {

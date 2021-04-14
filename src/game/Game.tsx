@@ -9,15 +9,17 @@ import {
   GameAction,
   GameState,
   gameStateMachine,
-  initialGameState,
+  getInitialGameState,
 } from '../stateMachines/gameStateMachine';
 import { useStateMachineReducer } from '../stateMachines/useStateMachineReducer';
 import { cssClass } from '../styleFunctions';
 
+const CODE_LENGTH = 4;
+
 export function Game() {
   const [gameState, dispatchToGame] = useStateMachineReducer(
     gameStateMachine,
-    initialGameState
+    getInitialGameState({ codeLength: CODE_LENGTH })
   );
 
   // Every time a new code gets added, reïnitialize the component that
@@ -39,7 +41,7 @@ type CodeListAndEditorProps = {
 function CodeListAndEditor(props: CodeListAndEditorProps) {
   const [codeEditorState, dispatchToCodeEditor] = useStateMachineReducer(
     codeEditorStateMachine,
-    getInitialCodeEditorState({ codeLength: 4 })
+    getInitialCodeEditorState({ codeLength: CODE_LENGTH })
   );
 
   return (

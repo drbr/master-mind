@@ -145,6 +145,7 @@ const OKButtonClass = cssClass('OKButton', {
 
 const CodeRowContainerClass = cssClass('CodeRowContainer', {
   display: 'flex',
+  flexShrink: 0,
   flexDirection: 'row',
   alignItems: 'center',
   paddingTop: 10,

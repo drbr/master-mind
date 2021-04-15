@@ -50,7 +50,7 @@ function CodeListAndEditor(props: CodeListAndEditorProps) {
     if (editableRowRef.current) {
       editableRowRef.current.scrollIntoView();
     }
-  }, []);
+  }, [codeEditorState]);
 
   return (
     <div className={AppClass}>
@@ -79,8 +79,7 @@ function CodeListAndEditor(props: CodeListAndEditorProps) {
 
 const AppClass = cssClass('App', {
   backgroundColor: 'rgb(141, 86, 47)',
-  minHeight: '100vh',
-  maxHeight: '100vh',
+  height: '100%',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { PartialCode } from '../logic/CodeTypes';
 import { CodeColor } from '../logic/colors';
 import { StateMachineObject } from './useStateMachineReducer';
@@ -30,7 +31,7 @@ export function getInitialCodeEditorState(params: {
   return {
     name: 'editing',
     codeLength: params.codeLength,
-    code: Array.from(new Array(params.codeLength)).map((_) => null),
+    code: _.times(params.codeLength, () => null),
     currentPegIndex: 0,
   };
 }

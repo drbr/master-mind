@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { GuessResponse } from '../logic/CodeTypes';
 import { ResponseColor, ResponseColors } from '../logic/colors';
 import { cssClass } from '../styleFunctions';
@@ -25,14 +26,9 @@ function linearize(
   const whitesCount = response?.white ?? 0;
   const remainingCount = 4 - blacksCount - whitesCount;
 
-  const blacks = Array.from({ length: blacksCount }, () => 'black') as [
-    ResponseColor | null
-  ];
-  const whites = Array.from({ length: whitesCount }, () => 'white') as [
-    ResponseColor | null
-  ];
-  const remaining = Array.from({ length: remainingCount }, () => null);
-
+  const blacks: (ResponseColor | null)[] = _.times(blacksCount, () => 'black');
+  const whites: (ResponseColor | null)[] = _.times(whitesCount, () => 'white');
+  const remaining = _.times(remainingCount, () => null);
   return blacks.concat(whites).concat(remaining);
 }
 

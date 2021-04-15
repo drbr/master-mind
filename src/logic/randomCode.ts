@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { Code } from './CodeTypes';
 import { ColorNames } from './colors';
 
@@ -7,5 +8,5 @@ function randomColor() {
 }
 
 export function randomCode(codeLength: number): Code {
-  return Array.from(new Array(codeLength)).map((_) => randomColor());
+  return _.times(codeLength, () => randomColor());
 }

@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { Code, GuessResponse } from '../logic/CodeTypes';
 import { computeResponse } from '../logic/computeResponse';
 import { randomCode } from '../logic/randomCode';
@@ -37,8 +38,13 @@ export const gameStateMachine: StateMachineObject<GameState, GameAction> = {
         answer: prev.answer,
       });
 
+      const nextState: GameState['name'] = _.isEqual(action.code, prev.answer)
+        ? 'solved'
+        : 'unsolved';
+
       return {
-        ...prev,
+        name: nextState,
+        answer: prev.answer,
         codesAndResponses: [
           ...prev.codesAndResponses,
           { code: action.code, response },

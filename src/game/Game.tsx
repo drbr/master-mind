@@ -63,14 +63,16 @@ function CodeListAndEditor(props: CodeListAndEditorProps) {
             response={response}
           />
         ))}
-        <EditableCodeRow
-          ref={editableRowRef}
-          index={props.gameState.codesAndResponses.length + 1}
-          code={codeEditorState.code}
-          currentPegIndex={codeEditorState.currentPegIndex}
-          dispatchToCodeEditor={dispatchToCodeEditor}
-          dispatchToGame={props.dispatchToGame}
-        />
+        {props.gameState.name === 'unsolved' && (
+          <EditableCodeRow
+            ref={editableRowRef}
+            index={props.gameState.codesAndResponses.length + 1}
+            code={codeEditorState.code}
+            currentPegIndex={codeEditorState.currentPegIndex}
+            dispatchToCodeEditor={dispatchToCodeEditor}
+            dispatchToGame={props.dispatchToGame}
+          />
+        )}
       </div>
       <ColorPalette dispatch={dispatchToCodeEditor} />
     </div>

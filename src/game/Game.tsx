@@ -39,7 +39,12 @@ type CodeListAndEditorProps = {
 };
 
 function CodeListAndEditor(props: CodeListAndEditorProps) {
-  const editableRowRef = useRef<HTMLDivElement>(null);
+  // Because we're rebuilding the scroll container every time an item gets added
+  // to it, we want to keep the top always in view. To do this, we use an
+  // "invisible" div at the top of the scroll container (the last element,
+  // because we're using reverse flex column layout) and scroll that into view
+  // whenever the editor has any activity.
+  const topOfScroll = useRef<HTMLDivElement>(null);
 
   const [codeEditorState, dispatchToCodeEditor] = useStateMachineReducer(
     codeEditorStateMachine,
@@ -47,8 +52,8 @@ function CodeListAndEditor(props: CodeListAndEditorProps) {
   );
 
   useEffect(() => {
-    if (editableRowRef.current) {
-      editableRowRef.current.scrollIntoView();
+    if (topOfScroll.current) {
+      topOfScroll.current.scrollIntoView();
     }
   }, [codeEditorState]);
 
@@ -65,7 +70,6 @@ function CodeListAndEditor(props: CodeListAndEditorProps) {
         ))}
         {props.gameState.name === 'unsolved' && (
           <EditableCodeRow
-            ref={editableRowRef}
             index={props.gameState.codesAndResponses.length + 1}
             code={codeEditorState.code}
             currentPegIndex={codeEditorState.currentPegIndex}
@@ -73,6 +77,7 @@ function CodeListAndEditor(props: CodeListAndEditorProps) {
             dispatchToGame={props.dispatchToGame}
           />
         )}
+        <div ref={topOfScroll}></div>
       </div>
       <ColorPalette dispatch={dispatchToCodeEditor} />
     </div>

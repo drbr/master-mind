@@ -89,6 +89,7 @@ const CodeListClass = cssClass('CodeList', {
   flex: 1,
   display: 'flex',
   overflowY: 'auto',
+  '-webkit-overflow-scrolling': 'touch',
   flexDirection: 'column-reverse',
   justifyContent: 'flex-start',
 });

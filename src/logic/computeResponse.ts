@@ -13,7 +13,7 @@ export function computeResponse({
   }
 
   const nonMatchingPegCountsInAnswer = new Map<CodeColor, number>();
-  const nonMatchingPegsInGuess = [];
+  const nonMatchingPegsInGuess: CodeColor[] = [];
 
   let black = 0;
   let white = 0;
@@ -31,7 +31,7 @@ export function computeResponse({
 
   // We know whatever's left is in the wrong place, so count
   // the number of guess pegs that correspond to an answer peg.
-  for (const guessPeg of guess) {
+  for (const guessPeg of nonMatchingPegsInGuess) {
     const count = nonMatchingPegCountsInAnswer.get(guessPeg) ?? 0;
     if (count > 0) {
       white++;

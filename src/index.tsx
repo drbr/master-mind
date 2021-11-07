@@ -4,6 +4,21 @@ import './index.css';
 import { Game } from './game/Game';
 import reportWebVitals from './reportWebVitals';
 
+function setViewportScaleForSmallDevices() {
+  const siteWidth = 376; // measured from actual static widths
+  const windowWidth = window.screen.width;
+  var scale = Math.min(windowWidth / siteWidth, 1.0);
+
+  document
+    .querySelector('meta[name="viewport"]')!
+    .setAttribute(
+      'content',
+      `width=device-width, initial-scale=${scale}, maximum-scale=${scale}`
+    );
+}
+
+setViewportScaleForSmallDevices();
+
 ReactDOM.render(
   <React.StrictMode>
     <Game />

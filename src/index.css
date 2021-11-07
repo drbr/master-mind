@@ -10,7 +10,8 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  overflow: hidden;
+  overflow: hidden; /* disables scroll-past-edge on iOS */
+  touch-action: manipulation; /* disables zooming and panning on touch devices */
 }
 
 #root {

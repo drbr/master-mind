@@ -13,7 +13,7 @@ function setViewportScaleForSmallDevices() {
     .querySelector('meta[name="viewport"]')!
     .setAttribute(
       'content',
-      `width=device-width, initial-scale=${scale}, maximum-scale=${scale}`
+      `width=device-width, initial-scale=${scale}, maximum-scale=${scale}, user-scalable=no`
     );
 }
 

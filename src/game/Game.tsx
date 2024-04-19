@@ -8,7 +8,7 @@ import {
 import { gameStateMachine, getInitialGameState } from '../stateMachines/gameStateMachine';
 import { useStateMachineReducer } from '../stateMachines/useStateMachineReducer';
 import { cssClass } from '../styleFunctions';
-import { ResetGameButton } from '../components/ResetGameButton';
+import { NewGameButton } from '../components/NewGameButton';
 import { GameStateProps } from '../types/GameStateProps';
 
 const CODE_LENGTH = 4;
@@ -51,7 +51,7 @@ function CodeListAndEditor(props: GameStateProps) {
 
   return (
     <div className={AppClass}>
-      <ResetGameButton gameState={props.gameState} dispatchToGame={props.dispatchToGame} />
+      <NewGameButton gameState={props.gameState} dispatchToGame={props.dispatchToGame} />
       <div className={CodeListClass}>
         {props.gameState.codesAndResponses.map(({ code, response }, i) => (
           <StaticCodeRow key={i + 1} index={i + 1} code={code} response={response} />

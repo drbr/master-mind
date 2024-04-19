@@ -1,19 +1,30 @@
+import { useEffect, useRef } from 'react';
 import { cssClass } from '../styleFunctions';
 import { GameStateProps } from '../types/GameStateProps';
 
-export function ResetGameButton(props: GameStateProps) {
+export function NewGameButton(props: GameStateProps) {
+  const newGameButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Focus the New Game button when it appears (but not the Give Up button)
+  useEffect(() => {
+    if (newGameButtonRef.current) {
+      newGameButtonRef.current.focus();
+    }
+  }, []);
+
   const button =
     props.gameState.name === 'unsolved' ? (
       <button
-        className={ResetGameButtonClass}
+        className={NewGameButtonClass}
         onClick={() => props.dispatchToGame({ type: 'giveUp' })}
       >
         Give up
       </button>
     ) : props.gameState.name === 'finished' ? (
       <button
-        className={ResetGameButtonClass}
-        onClick={() => props.dispatchToGame({ type: 'resetGame' })}
+        ref={newGameButtonRef}
+        className={NewGameButtonClass}
+        onClick={() => props.dispatchToGame({ type: 'newGame' })}
       >
         New game
       </button>
@@ -22,7 +33,7 @@ export function ResetGameButton(props: GameStateProps) {
   return <div>{button}</div>;
 }
 
-const ResetGameButtonClass = cssClass('ResetGameButton', {
+const NewGameButtonClass = cssClass('NewGameButton', {
   height: 40,
   margin: '10px 0',
   padding: '0 20px',

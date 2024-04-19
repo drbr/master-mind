@@ -23,7 +23,7 @@ export type GameAction =
       readonly type: 'giveUp';
     }
   | {
-      readonly type: 'resetGame';
+      readonly type: 'newGame';
     };
 
 export function getInitialGameState({ codeLength }: { codeLength: number }): GameState {
@@ -60,6 +60,6 @@ export const gameStateMachine: StateMachineObject<GameState, GameAction> = {
     }),
   },
   finished: {
-    resetGame: (prev) => getInitialGameState({ codeLength: prev.answer.length }),
+    newGame: (prev) => getInitialGameState({ codeLength: prev.answer.length }),
   },
 };

@@ -65,6 +65,9 @@ function CodeListAndEditor(props: GameStateProps) {
             dispatchToGame={props.dispatchToGame}
           />
         )}
+        {props.gameState.gaveUp && (
+          <StaticCodeRow index="" code={props.gameState.answer} response={{ black: 4, white: 0 }} />
+        )}
         <div ref={topOfScroll}></div>
       </div>
       <ColorPalette dispatch={dispatchToCodeEditor} />

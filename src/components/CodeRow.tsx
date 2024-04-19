@@ -1,54 +1,43 @@
-import React, {
-  Dispatch,
-  forwardRef,
-  ReactNode,
-  useEffect,
-  useRef,
-} from 'react';
+import React, { Dispatch, forwardRef, ReactNode, useEffect, useRef } from 'react';
 import { GuessResponse, Code } from '../logic/CodeTypes';
-import {
-  CodeEditorAction,
-  CodeEditorState,
-} from '../stateMachines/codeEditorStateMachine';
+import { CodeEditorAction, CodeEditorState } from '../stateMachines/codeEditorStateMachine';
 import { GameAction } from '../stateMachines/gameStateMachine';
 import { cssClass } from '../styleFunctions';
 import { StaticCodeDisplay, EditableCodeDisplay } from './CodeDisplay';
 import { ResponseDisplay } from './ResponseDisplay';
 
 type StaticCodeRowProps = {
-  index: number;
+  index: number | '';
   code: Code;
   response: GuessResponse;
 };
 
-type EditableCodeRowProps = Pick<
-  CodeEditorState,
-  'code' | 'currentPegIndex'
-> & {
-  index: number;
+type EditableCodeRowProps = Pick<CodeEditorState, 'code' | 'currentPegIndex'> & {
+  index: number | '';
   dispatchToCodeEditor: Dispatch<CodeEditorAction>;
   dispatchToGame: Dispatch<GameAction>;
 };
 
 type CodeRowLayoutProps = {
-  index: number;
+  index: number | '';
   responseArea: ReactNode;
   codeArea: ReactNode;
 };
 
-const CodeRowLayout = forwardRef<HTMLDivElement, CodeRowLayoutProps>(
-  function CodeRowLayout(props, ref) {
-    return (
-      <div ref={ref} className={CodeRowContainerClass}>
-        <label className={CodeRowIndexLabelClass}>{props.index}</label>
-        <div className={CodeRowClass}>
-          <div className={ResponseContainerClass}>{props.responseArea}</div>
-          {props.codeArea}
-        </div>
+const CodeRowLayout = forwardRef<HTMLDivElement, CodeRowLayoutProps>(function CodeRowLayout(
+  props,
+  ref
+) {
+  return (
+    <div ref={ref} className={CodeRowContainerClass}>
+      <label className={CodeRowIndexLabelClass}>{props.index}</label>
+      <div className={CodeRowClass}>
+        <div className={ResponseContainerClass}>{props.responseArea}</div>
+        {props.codeArea}
       </div>
-    );
-  }
-);
+    </div>
+  );
+});
 
 export function StaticCodeRow(props: StaticCodeRowProps) {
   return (
@@ -109,10 +98,7 @@ type OKButtonProps = {
   onClick: () => void;
 };
 
-const OKButton = forwardRef<HTMLButtonElement, OKButtonProps>(function OKButton(
-  props,
-  ref
-) {
+const OKButton = forwardRef<HTMLButtonElement, OKButtonProps>(function OKButton(props, ref) {
   return (
     <button ref={ref} className={OKButtonClass} onClick={props.onClick}>
       OK

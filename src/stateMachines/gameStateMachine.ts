@@ -11,6 +11,7 @@ export type GameState = {
     readonly code: Code;
     readonly response: GuessResponse;
   }>;
+  readonly gaveUp: boolean;
 };
 
 export type GameAction =
@@ -30,6 +31,7 @@ export function getInitialGameState({ codeLength }: { codeLength: number }): Gam
     name: 'unsolved',
     answer: randomCode(codeLength),
     codesAndResponses: [],
+    gaveUp: false,
   };
 }
 
@@ -46,14 +48,15 @@ export const gameStateMachine: StateMachineObject<GameState, GameAction> = {
         : 'unsolved';
 
       return {
+        ...prev,
         name: nextState,
-        answer: prev.answer,
         codesAndResponses: [...prev.codesAndResponses, { code: action.code, response }],
       };
     },
     giveUp: (prev) => ({
       ...prev,
       name: 'finished',
+      gaveUp: true,
     }),
   },
   finished: {

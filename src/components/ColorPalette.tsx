@@ -12,11 +12,7 @@ export function ColorPalette(props: ColorPaletteProps) {
   return (
     <div className={ColorPaletteContainerClass}>
       {ColorNames.map((c) => (
-        <CodePeg
-          key={c}
-          color={c}
-          onClick={() => props.dispatch({ type: 'putColor', color: c })}
-        />
+        <CodePeg key={c} color={c} onClick={() => props.dispatch({ type: 'putColor', color: c })} />
       ))}
     </div>
   );
@@ -27,5 +23,4 @@ const ColorPaletteContainerClass = cssClass('ColorPaletteContainer', {
   flexDirection: 'row',
   alignItems: 'center',
   padding: '10px 15px 10px 15px',
-  marginTop: 10,
 });

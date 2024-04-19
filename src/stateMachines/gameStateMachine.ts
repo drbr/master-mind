@@ -5,7 +5,7 @@ import { randomCode } from '../logic/randomCode';
 import { StateMachineObject } from './useStateMachineReducer';
 
 export type GameState = {
-  readonly name: 'unsolved' | 'solved';
+  readonly name: 'unsolved' | 'finished';
   readonly answer: Code;
   readonly codesAndResponses: ReadonlyArray<{
     readonly code: Code;
@@ -13,16 +13,19 @@ export type GameState = {
   }>;
 };
 
-export type GameAction = {
-  readonly type: 'submitGuess';
-  readonly code: Code;
-};
+export type GameAction =
+  | {
+      readonly type: 'submitGuess';
+      readonly code: Code;
+    }
+  | {
+      readonly type: 'giveUp';
+    }
+  | {
+      readonly type: 'resetGame';
+    };
 
-export function getInitialGameState({
-  codeLength,
-}: {
-  codeLength: number;
-}): GameState {
+export function getInitialGameState({ codeLength }: { codeLength: number }): GameState {
   return {
     name: 'unsolved',
     answer: randomCode(codeLength),
@@ -39,18 +42,21 @@ export const gameStateMachine: StateMachineObject<GameState, GameAction> = {
       });
 
       const nextState: GameState['name'] = _.isEqual(action.code, prev.answer)
-        ? 'solved'
+        ? 'finished'
         : 'unsolved';
 
       return {
         name: nextState,
         answer: prev.answer,
-        codesAndResponses: [
-          ...prev.codesAndResponses,
-          { code: action.code, response },
-        ],
+        codesAndResponses: [...prev.codesAndResponses, { code: action.code, response }],
       };
     },
+    giveUp: (prev) => ({
+      ...prev,
+      name: 'finished',
+    }),
   },
-  solved: {},
+  finished: {
+    resetGame: (prev) => getInitialGameState({ codeLength: prev.answer.length }),
+  },
 };

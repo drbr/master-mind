@@ -1,18 +1,15 @@
-import React, { Dispatch, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StaticCodeRow, EditableCodeRow } from '../components/CodeRow';
 import { ColorPalette } from '../components/ColorPalette';
 import {
   codeEditorStateMachine,
   getInitialCodeEditorState,
 } from '../stateMachines/codeEditorStateMachine';
-import {
-  GameAction,
-  GameState,
-  gameStateMachine,
-  getInitialGameState,
-} from '../stateMachines/gameStateMachine';
+import { gameStateMachine, getInitialGameState } from '../stateMachines/gameStateMachine';
 import { useStateMachineReducer } from '../stateMachines/useStateMachineReducer';
 import { cssClass } from '../styleFunctions';
+import { ResetGameButton } from '../components/ResetGameButton';
+import { GameStateProps } from '../types/GameStateProps';
 
 const CODE_LENGTH = 4;
 
@@ -33,12 +30,7 @@ export function Game() {
   );
 }
 
-type CodeListAndEditorProps = {
-  gameState: GameState;
-  dispatchToGame: Dispatch<GameAction>;
-};
-
-function CodeListAndEditor(props: CodeListAndEditorProps) {
+function CodeListAndEditor(props: GameStateProps) {
   // Because we're rebuilding the scroll container every time an item gets added
   // to it, we want to keep the top always in view. To do this, we use an
   // "invisible" div at the top of the scroll container (the last element,
@@ -59,14 +51,10 @@ function CodeListAndEditor(props: CodeListAndEditorProps) {
 
   return (
     <div className={AppClass}>
+      <ResetGameButton gameState={props.gameState} dispatchToGame={props.dispatchToGame} />
       <div className={CodeListClass}>
         {props.gameState.codesAndResponses.map(({ code, response }, i) => (
-          <StaticCodeRow
-            key={i + 1}
-            index={i + 1}
-            code={code}
-            response={response}
-          />
+          <StaticCodeRow key={i + 1} index={i + 1} code={code} response={response} />
         ))}
         {props.gameState.name === 'unsolved' && (
           <EditableCodeRow

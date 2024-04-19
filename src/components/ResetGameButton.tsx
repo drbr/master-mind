@@ -19,12 +19,7 @@ export function ResetGameButton(props: GameStateProps) {
       </button>
     ) : null;
 
-  return (
-    <div>
-      {button}
-      {props.gameState.answer}
-    </div>
-  );
+  return <div>{button}</div>;
 }
 
 const ResetGameButtonClass = cssClass('ResetGameButton', {

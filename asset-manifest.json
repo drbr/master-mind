@@ -1,22 +1,15 @@
 {
   "files": {
-    "main.css": "/master-mind/static/css/main.b05c5925.chunk.css",
-    "main.js": "/master-mind/static/js/main.643f4aaa.chunk.js",
-    "main.js.map": "/master-mind/static/js/main.643f4aaa.chunk.js.map",
-    "runtime-main.js": "/master-mind/static/js/runtime-main.865e83f6.js",
-    "runtime-main.js.map": "/master-mind/static/js/runtime-main.865e83f6.js.map",
-    "static/js/2.2d96c876.chunk.js": "/master-mind/static/js/2.2d96c876.chunk.js",
-    "static/js/2.2d96c876.chunk.js.map": "/master-mind/static/js/2.2d96c876.chunk.js.map",
-    "static/js/3.690e0fd5.chunk.js": "/master-mind/static/js/3.690e0fd5.chunk.js",
-    "static/js/3.690e0fd5.chunk.js.map": "/master-mind/static/js/3.690e0fd5.chunk.js.map",
+    "main.css": "/master-mind/static/css/main.8a89a7d8.css",
+    "main.js": "/master-mind/static/js/main.8a438b0d.js",
+    "static/js/453.2152ea1e.chunk.js": "/master-mind/static/js/453.2152ea1e.chunk.js",
     "index.html": "/master-mind/index.html",
-    "static/css/main.b05c5925.chunk.css.map": "/master-mind/static/css/main.b05c5925.chunk.css.map",
-    "static/js/2.2d96c876.chunk.js.LICENSE.txt": "/master-mind/static/js/2.2d96c876.chunk.js.LICENSE.txt"
+    "main.8a89a7d8.css.map": "/master-mind/static/css/main.8a89a7d8.css.map",
+    "main.8a438b0d.js.map": "/master-mind/static/js/main.8a438b0d.js.map",
+    "453.2152ea1e.chunk.js.map": "/master-mind/static/js/453.2152ea1e.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.865e83f6.js",
-    "static/js/2.2d96c876.chunk.js",
-    "static/css/main.b05c5925.chunk.css",
-    "static/js/main.643f4aaa.chunk.js"
+    "static/css/main.8a89a7d8.css",
+    "static/js/main.8a438b0d.js"
   ]
 }

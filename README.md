@@ -1,8 +1,7 @@
 # Master Mind
 
-My implementation of a Mastermind game.
-
-https://drbr.github.io/master-mind
+A browser-based implementation of the classic [Mastermind](https://en.wikipedia.org/wiki/Mastermind_(board_game)) game.
+It also happens to be a good demonstration of the concepts described in my [state machine talk](https://github.com/drbr/state-machine-talk/).
 
 # Getting Started with Create React App
 
